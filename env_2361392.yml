@@ -1,0 +1,11 @@
+name: ahds_week9
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - r-base=4.4.1
+  - r-tidyverse=2.0.0
+  - r-tidytext=0.4.2  
+  - r-wordcloud=2.6
+  - snakemake=7.26
