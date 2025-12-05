@@ -1,46 +1,62 @@
 #!/bin/bash
 
+set -euo pipefail
+
+
+MAX_ARTICLES="${1:-10000}"
+
 API_BASE="https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+SEARCH_TERM=$2
 
-SEARCH_TERM="\"gaming+disorder\"+OR+\"smartphone+addiction\"+OR+\"internet+addiction\""
+RAW_DIR="data/raw"
+PMIDS_FILE="${RAW_DIR}/pmids.xml"
 
-PMIDS_FILE="../data/raw/pmids.xml"
+SLEEP_SECONDS=1
 
-echo "--- starting PMID download ---"
+mkdir -p "${RAW_DIR}"
 
-SEARCH_URL="${API_BASE}/esearch.fcgi?db=pubmed&term=${SEARCH_TERM}&retmax=100000"
+SEARCH_URL="${API_BASE}/esearch.fcgi?db=pubmed&term=${SEARCH_TERM}&retmax=${MAX_ARTICLES}"
 
-curl "${SEARCH_URL}" > "${PMIDS_FILE}"
-
-echo "PMID list downloaded to ${PMIDS_FILE}"
-
-echo "--- starting article metadata download ---"
+curl -s "${SEARCH_URL}" > "${PMIDS_FILE}"
+echo "Saved PMIDs to: ${PMIDS_FILE}"
 
 PMID_LIST=$(grep -oP '(?<=<Id>)[0-9]+(?=</Id>)' "${PMIDS_FILE}")
 
-COUNT=0
-BATCH_SIZE=20
+if [ -z "$PMID_LIST" ]; then
+    echo "ERROR: No PMIDs extracted. Check search term or network."
+    exit 1
+fi
 
+
+PMID_LIST=$(echo "$PMID_LIST" | head -n "${MAX_ARTICLES}")
+
+echo "Extracted $(echo "$PMID_LIST" | wc -l) PMIDs."
+
+
+COUNT=0     
 
 for PMID in ${PMID_LIST}; do
+    COUNT=$((COUNT + 1))
 
-    if [ "$COUNT" -ge "$MAX_ARTICLES" ]; then
-        echo "Reached maximum article limit of ${MAX_ARTICLES}. Stopping download."
-        break
-    fi
-
+    OUTPUT_FILE="${RAW_DIR}/article-data-${PMID}.xml"
     FETCH_URL="${API_BASE}/efetch.fcgi?db=pubmed&id=${PMID}&retmode=xml"
-    OUTPUT_FILE="../data/raw/article-data-${PMID}.xml"
 
-    echo "Downloading article metadata for PMID: ${PMID} (${COUNT}/${MAX_ARTICLES})"
-
+    echo "(${COUNT}) Downloading article for PMID: ${PMID}"
 
     curl -s "${FETCH_URL}" > "${OUTPUT_FILE}"
 
-    sleep 1
+    
+    if ! grep -q "<PubmedArticle" "${OUTPUT_FILE}" 2>/dev/null; then
+        echo "WARNING: Empty or invalid XML for PMID ${PMID}. Removing..."
+        rm -f "${OUTPUT_FILE}"
+        continue
+    fi
 
-
-    COUNT=$((COUNT + 1))
+    sleep "${SLEEP_SECONDS}"
 done
 
-echo "--- Article metadata download complete ---"
+echo
+echo "============================"
+echo " Download Completed "
+echo "Articles saved in: ${RAW_DIR}"
+echo "============================"
