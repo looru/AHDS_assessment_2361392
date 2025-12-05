@@ -26,3 +26,9 @@ latency-wait: 10
 keep-going: True
 rerun-incomplete: True
 printshellcmds: True
+
+search_term: "\"gaming+disorder\"+OR+\"smartphone+addiction\"+OR+\"internet+addiction\"+OR+\"social+media+addiction\""
+
+max_articles: 10000
+test: true
+test_n: 20
