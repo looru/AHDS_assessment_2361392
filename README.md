@@ -58,9 +58,9 @@ Key outputs are stored in `data/clean/` and visualisations in `figures/`.
 └─ scripts.R                          # Wrapper to run the full pipeline from R
 
 
-
+------------------------------------------------
 Methods: Snakemake Pipeline Design
-
+------------------------------------------------
 The analysis workflow was implemented using Snakemake, which provides a reproducible, rule-based framework for automating multi-step data-processing pipelines. Each rule encodes the transformation of specific input files into corresponding outputs, allowing Snakemake to construct a directed acyclic graph (DAG) and execute only the steps required to generate missing or outdated outputs. This modular design ensures reusability, transparency, and efficient reruns, while maintaining strict control over software environments through a conda configuration.
 
 Rule1: download_raw
@@ -103,3 +103,4 @@ The submitted zip file contains:
   - `code/word_trends.R`, `code/step4_comparison_cloud_year.R`, `code/lda_topics_over_time_named.R` – tidytext analyses, visualisations, and LDA topic modelling.
   - `Snakefile`, `config.yaml`, `environment.yml` – define and configure the Snakemake pipeline.
 Each script is commented, and the README describes how to run the full analysis with Snakemake.
+
