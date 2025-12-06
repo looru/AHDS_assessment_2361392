@@ -21,6 +21,7 @@ The aim of this pipeline is to:
 The workflow is entirely automated using Snakemake, enabling reproducibility and portability.
 
 2. Directory Structure
+
 AHDS_assessment_2361392/
 │
 ├── code/                     # All R scripts and Bash scripts used in the pipeline
@@ -63,6 +64,9 @@ This environment provides:
 4. Running the Pipeline on BluePebble
 
 Step 1 — Loading Conda
+
+Step 1 — Load Conda
+
 source ~/initConda.sh
 conda activate env_2361392
 
@@ -139,17 +143,17 @@ Set test: false for full analysis.
 
 This repository includes:
 
-- .git version tracking
+-.git version tracking
 
-- meaningful commit messages
+-meaningful commit messages
 
-- environment files
+-environment files
 
-- complete workflow scripts
+-complete workflow scripts
 
-- The final submitted ZIP file excludes raw data, ensuring size < 1GB.
+-The final submitted ZIP file excludes raw data, ensuring size < 1GB.
 
-9. Citation
+9. References
 
 Wickham, H., & Grolemund, G. (2023). R for Data Science (2e).
 
