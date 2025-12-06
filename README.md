@@ -151,4 +151,5 @@ This repository includes:
 9. Citation
 
 Wickham, H., & Grolemund, G. (2023). R for Data Science (2e).
+
 Silge, J., & Robinson, D. (2016). Text Mining with R.
