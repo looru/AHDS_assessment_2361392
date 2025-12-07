@@ -1,4 +1,4 @@
-AHDS Assessment Pipeline — Student 2361392
+AHDS Assessment Pipeline
 
 This repository contains the full reproducible workflow for the AHDS assessment, including data collection, cleaning, text mining, topic modelling, and visualisation. The workflow was implemented using Snakemake, Bash, and R (tidyverse + tidytext) and is designed to run both locally and on the BluePebble HPC cluster.
 
@@ -65,10 +65,9 @@ This environment provides:
 
 Step 1 — Loading Conda
 
-Step 1 — Load Conda
-
-source ~/initConda.sh
 conda activate env_2361392
+
+Please note that conda is already initialized and there's no need to run source ~/initConda.sh
 
 Step 2 — Running Snakemake
 
@@ -145,17 +144,11 @@ This repository includes:
 
 -.git version tracking
 
--meaningful commit messages
+-made meaningful commit messages
 
--environment files
+-conda and snakemake environment files
 
 -complete workflow scripts
 
--The final submitted ZIP file excludes raw data, ensuring size < 1GB.
-
-9. References
-
-Wickham, H., & Grolemund, G. (2023). R for Data Science (2e).
-
-Silge, J., & Robinson, D. (2016). Text Mining with R.
+-The final submitted ZIP file excludes raw data, and the size is < 1GB.
 
